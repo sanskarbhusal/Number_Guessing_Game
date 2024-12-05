@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(235, 233, 233);
+        }
+
+        #outer-container {
+            display: flex;
+            border: 4px solid #FAE78E;
+            background-color: #FFF8E1;
+            height: 500px;
+            width: 90%;
+            min-width: 350px;
+            overflow-y: hidden;
+
+            border-radius: 5px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+        }
+
+        .inner-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            background-color: transparent;
+            ;
+
+        }
+
+        .big-font {
+            font-size: 35px;
+        }
+
+        #title-div {
+            background-color: #FAE78E;
+            border-radius: 5px;
+        }
+
+        #status-div {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 0.9em;
+        }
+
+        #input {
+            font-size: 23px;
+            height: 100%;
+            min-width: 60%;
+            border: 4px solid white;
+        }
+
+        #buttons-div {
+            justify-content: space-between;
+            width: 60%;
+        }
+
+
+        button {
+            border: transparent;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            height: 35px;
+            font-size: 20px;
+            font-weight: bold;
+
+        }
+
+        button:hover {
+            border-radius: 15px;
+        }
+
+        button:active {
+            border: 2px solid transparent;
+        }
+
+        #check-btn {
+            background-color: rgb(17, 241, 17);
+        }
+
+        #restart-btn {
+            background-color: rgb(107, 107, 250);
+        }
+
+        #result-div {
+            width: 60%;
+            height: 100px;
+            border: 2px solid #FAE78E;
+            background-color: white;
+            word-wrap: break-word;
+            overflow-y: auto;
+            font-size: 0.8em;
+        }
+
+        #result-div::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="outer-container" class="big-font">
+        <div id="title-div" class="inner-container">Guessing Game</div>
+        <div id="status-div">
+            <div>Chances: <span id="counter-status"></span></div>
+            <div>Guessed Numbers:<span id="guessed-numbers-list"></span></div>
+        </div>
+        <div id="input-div" class="inner-container">
+            <input id="input" type="number" required placeholder="Type here..." min="0" max="10">
+        </div>
+        <div id="buttons-div" class="inner-container">
+            <button id="check-btn">Check</button>
+            <button id="restart-btn">Restart</button>
+        </div>
+        <div id="result-div" class="inner-container"></div>
+    </div>
+    <script>
+        const input = document.getElementById("input");
+        const checkButton = document.getElementById("check-btn");
+        const restartButton = document.getElementById("restart-btn");
+        const counterStatus = document.getElementById("counter-status");
+        const guessedNumbersStatus = document.getElementById("guessed-numbers-list");
+        const result = document.getElementById("result-div");
+        function randomNumber() {
+            return Math.floor(Math.random() * 11);
+        }
+        const chances = 10;
+        counterStatus.innerText = `${chances}`;
+        const game = {
+            counter: chances,
+            guessedNumbersList: [],
+            randomNumber: randomNumber(),
+            reset(counter, randomNumber) {
+                this.counter = counter;
+                this.randomNumber = randomNumber;
+                this.guessedNumbersList = [];
+                input.value = "";
+                guessedNumbersStatus.innerText = "";
+                counterStatus.innerText=`${this.counter}`;
+                result.innerText = "";
+            },
+            isCorrect(guessedNumber) {
+
+                if (this.randomNumber == guessedNumber) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        };
+        checkButton.addEventListener("click", () => {
+            game.counter--;
+            counterStatus.innerText = `${game.counter}`;
+            let userGuess = input.value;
+            game.guessedNumbersList.push(userGuess);
+            guessedNumbersStatus.innerText = `${game.guessedNumbersList.join(",")}`;
+
+            input.value = "";
+            if (game.counter > 0) {
+                if (game.isCorrect(parseInt(userGuess))) {
+                    result.innerText = `${userGuess} is a correct guess. You won :)`;
+                    result.style.color = "green";
+                    checkButton.style.display = "none";
+                } else {
+                    result.innerText = "Oops! Wrong guess ): Try agian.";
+                    result.style.color = "red";
+                }
+
+            } else {
+
+                result.innerText = "That was also wrong. Game over!";
+                result.style.color = "red";
+                checkButton.style.display = "none";
+            }
+        }
+        );
+        restartButton.addEventListener("click", () => {
+            game.reset(chances, randomNumber());
+            checkButton.style.display = "block";
+
+        });
+    </script>
+</body>
+
+</html>
