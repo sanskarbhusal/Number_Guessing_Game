@@ -118,7 +118,7 @@
             <div>Guessed Numbers:<span id="guessed-numbers-list"></span></div>
         </div>
         <div id="input-div" class="inner-container">
-            <input id="input" type="number" required placeholder="Guess from 1 to 10" min="0" max="10">
+            <input id="input" type="number" required placeholder="Guess from 1 to 10" min="0" max="5">
         </div>
         <div id="buttons-div" class="inner-container">
             <button id="check-btn">Check</button>
@@ -134,7 +134,9 @@
         const guessedNumbersStatus = document.getElementById("guessed-numbers-list");
         const result = document.getElementById("result-div");
         function randomNumber() {
-            return Math.floor(Math.random() * 11);
+            const random = Math.floor(Math.random() * 11);
+            console.log("Generated random number is :", random)
+            return random
         }
         const chances = 5;
         counterStatus.innerText = `${chances}`;
