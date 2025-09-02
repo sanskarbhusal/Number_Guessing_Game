@@ -111,7 +111,6 @@
 </head>
 
 <body>
-
     <div id="outer-container" class="big-font">
         <div id="title-div" class="inner-container">Guessing Game</div>
         <div id="status-div">
@@ -137,7 +136,7 @@
         function randomNumber() {
             return Math.floor(Math.random() * 11);
         }
-        const chances = 10;
+        const chances = 5;
         counterStatus.innerText = `${chances}`;
         const game = {
             counter: chances,
@@ -149,7 +148,7 @@
                 this.guessedNumbersList = [];
                 input.value = "";
                 guessedNumbersStatus.innerText = "";
-                counterStatus.innerText=`${this.counter}`;
+                counterStatus.innerText = `${this.counter}`;
                 result.innerText = "";
             },
             isCorrect(guessedNumber) {
@@ -161,13 +160,13 @@
                 }
             }
         };
+
         checkButton.addEventListener("click", () => {
             game.counter--;
             counterStatus.innerText = `${game.counter}`;
             let userGuess = input.value;
             game.guessedNumbersList.push(userGuess);
             guessedNumbersStatus.innerText = `${game.guessedNumbersList.join(",")}`;
-
             input.value = "";
             if (game.counter > 0) {
                 if (game.isCorrect(parseInt(userGuess))) {
@@ -178,7 +177,6 @@
                     result.innerText = "Oops! Wrong guess ): Try agian.";
                     result.style.color = "red";
                 }
-
             } else {
 
                 result.innerText = "That was also wrong. Game over!";
@@ -187,6 +185,7 @@
             }
         }
         );
+
         restartButton.addEventListener("click", () => {
             game.reset(chances, randomNumber());
             checkButton.style.display = "block";
